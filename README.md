@@ -46,10 +46,11 @@ Project Object Model，项目对象模型。通过xml格式保存的pom.xml文�
 </project>  
 ```
 
-##　二、基本设置
+
+## 二、基本设置
 
 ### 1、maven的协作相关属性
-[html] view plain copy 
+```html 
 <project xmlns="http://maven.apache.org/POM/4.0.0"  
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0  
@@ -59,17 +60,19 @@ Project Object Model，项目对象模型。通过xml格式保存的pom.xml文�
   <artifactId>my-project</artifactId>  
   <version>1.0</version>  
   <packaging>war</packaging>  
-</project>  
+</project>
+```
 groupId : 组织标识，例如：org.codehaus.mojo，在M2_REPO目录下，将是: org/codehaus/mojo目录。
 artifactId : 项目名称，例如：my-project，在M2_REPO目录下，将是：org/codehaus/mojo/my-project目录。
 version : 版本号，例如：1.0，在M2_REPO目录下，将是：org/codehaus/mojo/my-project/1.0目录。
 packaging : 打包的格式，可以为：pom , jar , maven-plugin , ejb , war , ear , rar , par
 
 ### 2、POM之间的关系
+
 主要用于POM文件的复用。
 a）依赖关系：依赖关系列表（dependency list）是POM的重要部分
-[html] view plain copy 
-<dependencies>  
+```html 
+  <dependencies>  
    <dependency>  
      <groupId>junit</groupId>  
      <artifactId>junit</artifactId>  
@@ -77,14 +80,15 @@ a）依赖关系：依赖关系列表（dependency list）是POM的重要部分
      <scope>test</scope>  
    </dependency>  
    …  
- </dependencies>  
+ </dependencies>
+ ```
 groupId , artifactId , version :
 scope : compile(default),provided,runtime,test,system
 exclusions
 b）继承关系：继承其他pom.xml配置的机制。
 比如父pom.xml：
 
-[html] view plain copy 
+```html
 <project>  
   [...]  
   <dependencies>  
@@ -96,18 +100,20 @@ b）继承关系：继承其他pom.xml配置的机制。
     </dependency>  
   </dependencies>  
   [...]  
-</project>  
+</project>
+```
 在子pom.xml文件继承它的依赖（还可以继承其他的：developers and contributors、plugin lists、reports lists、plugin executions with matching ids、plugin configuration）：
-[html] view plain copy 
+```html 
 [...]  
 <parent>  
 <groupId>com.devzuz.mvnbook.proficio</groupId>  
   <artifactId>proficio</artifactId>  
   <version>1.0-SNAPSHOT</version>  
 </parent>  
-[...]  
+[...]
+```
 在这种机制下，maven还提供了一个类似java.lang.Object的顶级父pom.xml文件：
-[html] view plain copy 
+```html 
 <project>  
   <modelVersion>4.0.0</modelVersion>  
   <name>Maven Default Project</name>  
@@ -287,11 +293,12 @@ b）继承关系：继承其他pom.xml配置的机制。
       </build>  
     </profile>  
   </profiles>  
-</project>  
+</project>
+```
 可以通过下面命令查看当前pom.xml受到超pom.xml文件的影响：
 mvn help:effective-pom
 c）聚合关系：用于将多个maven项目聚合为一个大的项目。
-[html] view plain copy 
+```html
 <project xmlns="http://maven.apache.org/POM/4.0.0"  
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0  
@@ -304,6 +311,7 @@ c）聚合关系：用于将多个maven项目聚合为一个大的项目。
     <module>my-project<module>  
   </modules>  
 </project>  
+```
 
 ### 3、属性
 maven的属性，是值的占位符，类似EL，类似ant的属性，比如${X}，可用于pom文件任何赋值的位置。有以下分类：
@@ -315,7 +323,7 @@ Java System Properties：java.lang.System.getProperties()中的属性，比如ja
 
 ### 4、构建设置
 构建有两种build标签：
-[html] view plain copy 
+```html 
 <project xmlns="http://maven.apache.org/POM/4.0.0"  
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0  
@@ -329,12 +337,13 @@ Java System Properties：java.lang.System.getProperties()中的属性，比如ja
       <build>…</build>  
     </profile>  
   </profiles>  
-</project>  
+</project>
+```
 build中的主要标签：Resources和Plugins。
 
 Resources：用于排除或包含某些资源文件
 
-[html] view plain copy 
+```html 
 <resources>  
   <resource>  
     <targetPath>META-INF/plexus</targetPath>  
@@ -347,9 +356,10 @@ Resources：用于排除或包含某些资源文件
       <exclude>**/*.properties</exclude>  
     </excludes>  
   </resource>  
-</resources>  
+</resources>
+```
 Plugins：设置构建的插件
-[html] view plain copy 
+```html 
 <build>  
    …  
    <plugins>  
@@ -365,3 +375,4 @@ Plugins：设置构建的插件
        <dependencies>…</dependencies>  
        <executions>…</executions>  
      </plugin>  
+```
